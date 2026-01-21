@@ -1,4 +1,4 @@
-<b>Work in Progress<b>
+<b>Work in Progress</b>
 
 This project is the first entry in my “SensorNode” project series.
 
