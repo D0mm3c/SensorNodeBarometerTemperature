@@ -71,6 +71,7 @@ The project is built using **ESP-IDF**.
 ```bash
 idf.py build
 idf.py -p <PORT> flash monitor
+```
 
 ## Roadmap
 - Rename internal bmp280 identifiers to bme280
