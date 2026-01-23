@@ -1,6 +1,7 @@
 ## IDF Component Manager Manifest File
 dependencies:
   espressif/ds18b20: "*"
+  esp-idf-lib/bmp280: "^1.0.7"
   ## Required IDF version
   idf:
     version: ">=4.1.0"

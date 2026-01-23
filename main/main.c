@@ -2,31 +2,22 @@
 #include "esp_log.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-#include "ds18b20_sensor.h"
-
-#define DS18B20_PIN 4
-#define MAX_DS18B20 1
-
+#include "sensorhub.h"
 static const char *TAG = "SensorNode";
 
 void app_main(void)
 {
-    // ds18b20 config
-    ds18b20_sensor_cfg_t cfg = {
-        .gpio_num = 4};
+    ESP_ERROR_CHECK(sensorhub_init());
 
-    // ds18b20 init
-    ESP_ERROR_CHECK(ds18b20_sensor_init(&cfg));
     int tick = 0;
+
+    sensorhub_sample_t sample = {0};
 
     while (1)
     {
-        float temperatur = 0.0f;
-        if(ds18b20_sensor_read_temp_c(&temperatur) == ESP_OK){
-            ESP_LOGI(TAG, "tick=%d temp=%.2fC", tick++, temperatur);
-        }else{
-            ESP_LOGI(TAG, "tick=%d temp read failed", tick++);
-        }
-        vTaskDelay(pdMS_TO_TICKS(1000));
+        ESP_ERROR_CHECK(sensorhub_sample(&sample));
+        ESP_LOGI(TAG, "tick=%d T1=%.2fC T2=%.2f C  P=%.2f hPa F=%.2f %%", tick++, sample.ds18b20_temp_c, sample.bme280_temp_c, sample.bme280_press_pa/100, sample.bme280_humid_pct);
+      
+        //vTaskDelay(pdMS_TO_TICKS(1000));
     }
 }
